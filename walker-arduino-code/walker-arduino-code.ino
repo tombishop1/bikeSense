@@ -45,8 +45,8 @@
 #include "RTClib.h" // from http://www.ladyada.net/make/logshield/download.html
 #include <SD.h> 
 
-#define buttonPin 2 // reads the handlebar button
-#define lightPin 4  // controls the signal light
+#define buttonPin 1 // reads the handlebar button
+#define lightPin 0  // controls the signal light
 #define sampleRate 10 // in Hertz - might want to alter this
 #define syncInterval 5000 // ms between writes to disk
 #define buttonTimeToStopRecording 10000 // how long to hold down the button to cancel recording in ms
@@ -55,7 +55,6 @@
 #define minDistanceOfInterest 19 // ignore any reading <= this. NB Likely defined by sensor limitations
 
 RTC_PCF8523 RTC; // initalize real time clock
-
 
 // Set up global variables that won't need changing by the user
 // These just hold and pass information for the program
@@ -86,7 +85,7 @@ void setup() {
 
   pinMode(buttonPin, INPUT_PULLUP); // button will be used as an input
   pinMode(lightPin, OUTPUT); // the button's lamp will be used as an output
-  Maxbotix rangeSensorPW(8, Maxbotix::PW, Maxbotix::XL); // this connects the range sensor PW output to digital pin 8
+  Maxbotix rangeSensorPW(2, Maxbotix::PW, Maxbotix::XL); // this connects the range sensor PW output to digital pin 2
   // NB The button I used had a lamp built in. But this could 
   // easily be a separate LED (and resistor) if your button doesn't
   // have one built in

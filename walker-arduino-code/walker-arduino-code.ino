@@ -1,6 +1,7 @@
 /*
  ** BikeSense Distance Sensor and Data Logger 
  ** Version 0.2 by Ian Walker, University of Bath
+ ** Version 0.3 modifications by Thomas Bishop, University of Manchester
  ** Available under the Creative Commons BY-NC-SA terms
  ** http://creativecommons.org/licenses/by-nc-sa/2.0/uk/
  
@@ -11,6 +12,9 @@
  Version 0.2 
  Writes to SD rather than serial output
  Allows a long press to cancel recording and reset
+
+ Version 0.3
+ Uses internal pull-up resistor on inputs
  
  This code is intended to be modular so that, if others use it,
  and employ some different hardware to me, the number of changes will be 
@@ -78,7 +82,7 @@ unsigned long samplePause = 1000 / sampleRate;
  ************************* */
 void setup() {
 
-  pinMode(buttonPin, INPUT); // button will be used as an input
+  pinMode(buttonPin, INPUT_PULLUP); // button will be used as an input
   pinMode(lightPin, OUTPUT); // the button's lamp will be used as an output
   // NB The button I used had a lamp built in. But this could 
   // easily be a separate LED (and resistor) if your button doesn't
@@ -140,7 +144,7 @@ void loop()
   readingTime = millis(); // and the millis time for checking inter-reading delay
 
   // Check the button
-  buttonReading = digitalRead(buttonPin); 
+  buttonReading = !digitalRead(buttonPin); 
 
   // if we're not recording and the button's pressed, we start recording
   if (! problem && ! recording && buttonReading == HIGH) { 
@@ -178,7 +182,7 @@ void loop()
     // go into a loop that fakes the "ready" signal until the button is released
     // as we don't want to go any further until user lets go
     while (buttonDown) {
-      buttonReading = digitalRead(buttonPin);
+      buttonReading = !digitalRead(buttonPin);
       if (buttonReading == HIGH) {
         buttonDown = 1;
       } else {

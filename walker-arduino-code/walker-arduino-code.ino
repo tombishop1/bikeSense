@@ -97,7 +97,7 @@ void setup() {
   delay(300);
 
   // Check RTC is okay
-  if (! RTC.isrunning()) {   
+  if (! RTC.initialized()) {   
     problem = 1;
     return; // don't do anything more
   } 

@@ -16,6 +16,7 @@
  Version 0.3
  Uses internal pull-up resistor on inputs
  Updates the RTC chip used
+ Uses a different library for reading the distance sensor
  
  This code is intended to be modular so that, if others use it,
  and employ some different hardware to me, the number of changes will be 
@@ -40,7 +41,7 @@
 
 // Libraries and definitions
 #include <Wire.h>
-#include "Ultrasonic.h" // from http://arduino-info.wikispaces.com/UltraSonicDistance
+#include "Maxbotix.h"
 #include "RTClib.h" // from http://www.ladyada.net/make/logshield/download.html
 #include <SD.h> 
 
@@ -85,6 +86,7 @@ void setup() {
 
   pinMode(buttonPin, INPUT_PULLUP); // button will be used as an input
   pinMode(lightPin, OUTPUT); // the button's lamp will be used as an output
+  Maxbotix rangeSensorPW(8, Maxbotix::PW, Maxbotix::XL); // this connects the range sensor PW output to digital pin 8
   // NB The button I used had a lamp built in. But this could 
   // easily be a separate LED (and resistor) if your button doesn't
   // have one built in
@@ -255,18 +257,9 @@ DateTime timestamp() {
 
 // function to query the distance sensor
 // and return a result in cm
-// A little help from http://www.arduino.cc/playground/Main/MaxSonar
 unsigned long distanceReading() {
-  unsigned long reading;
   unsigned long cm;
-
-  int pulsePin = 7;
-  reading = pulseIn(pulsePin, HIGH);
-  
-  cm = reading/58; // 58 microsecs per cm
-
-  // additional, empirical correction
-  cm = cm / 1.24;
+  cm = rangeSensorPW.getRange();  
   return(cm);
 }
 

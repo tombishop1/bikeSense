@@ -42,6 +42,7 @@
 // Libraries and definitions
 #include <Wire.h>
 #include "Maxbotix.h"
+Maxbotix rangeSensorPW(2, Maxbotix::PW, Maxbotix::XL); // this connects the range sensor PW output to digital pin 2
 #include "RTClib.h" // from http://www.ladyada.net/make/logshield/download.html
 #include <SD.h> 
 
@@ -85,7 +86,6 @@ void setup() {
 
   pinMode(buttonPin, INPUT_PULLUP); // button will be used as an input
   pinMode(lightPin, OUTPUT); // the button's lamp will be used as an output
-  Maxbotix rangeSensorPW(2, Maxbotix::PW, Maxbotix::XL); // this connects the range sensor PW output to digital pin 2
   // NB The button I used had a lamp built in. But this could 
   // easily be a separate LED (and resistor) if your button doesn't
   // have one built in

@@ -15,6 +15,7 @@
 
  Version 0.3
  Uses internal pull-up resistor on inputs
+ Updates the RTC chip used
  
  This code is intended to be modular so that, if others use it,
  and employ some different hardware to me, the number of changes will be 
@@ -52,7 +53,7 @@
 #define maxDistanceOfInterest 400 // ignore any readings >= than this
 #define minDistanceOfInterest 19 // ignore any reading <= this. NB Likely defined by sensor limitations
 
-RTC_DS1307 RTC; // initalize real time clock
+RTC_PCF8523 RTC; // initalize real time clock
 
 
 // Set up global variables that won't need changing by the user

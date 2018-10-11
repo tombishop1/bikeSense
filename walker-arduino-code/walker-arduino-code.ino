@@ -46,8 +46,8 @@ Maxbotix rangeSensorPW(2, Maxbotix::PW, Maxbotix::XL); // this connects the rang
 #include "RTClib.h" // from http://www.ladyada.net/make/logshield/download.html
 #include <SD.h> 
 
-#define buttonPin 1 // reads the handlebar button
-#define lightPin 0  // controls the signal light
+#define buttonPin 4 // reads the handlebar button
+#define lightPin 3  // controls the signal light
 #define sampleRate 10 // in Hertz - might want to alter this
 #define syncInterval 5000 // ms between writes to disk
 #define buttonTimeToStopRecording 10000 // how long to hold down the button to cancel recording in ms
@@ -117,6 +117,10 @@ void setup() {
     flashLight(1, 500); // Sd card is present and correct
   }
 
+  Serial.begin(9600);
+  Serial.println();
+  Serial.println("Serial init.");
+  
   // setup complete
   flashLight(5, 50); // we're all ready to go!
   delay(500); // short delay so the READY signal is distinct from the waiting-to-begin signal 
@@ -234,6 +238,9 @@ void loop()
   if (! problem && recording && (readingTime - lastSyncTime) >= syncInterval) { 
     logfile.flush();
     lastSyncTime = readingTime;
+    Serial.print(rangeSensorPW.getRange());
+    Serial.print(" cm");
+    Serial.println();
   } // end of sync IF
 }
 

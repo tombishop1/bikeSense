@@ -52,8 +52,8 @@ Maxbotix rangeSensorPW(2, Maxbotix::PW, Maxbotix::XL); // this connects the rang
 #define syncInterval 5000 // ms between writes to disk
 #define buttonTimeToStopRecording 10000 // how long to hold down the button to cancel recording in ms
 #define CORRECTION 2 // adjustment to calibrate the sensor. 2 would mean add 2 cm
-#define maxDistanceOfInterest 400 // ignore any readings >= than this
-#define minDistanceOfInterest 19 // ignore any reading <= this. NB Likely defined by sensor limitations
+#define maxDistanceOfInterest 750 // ignore any readings >= than this
+#define minDistanceOfInterest 30 // ignore any reading <= this. NB Likely defined by sensor limitations
 
 RTC_PCF8523 RTC; // initalize real time clock
 

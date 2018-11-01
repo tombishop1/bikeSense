@@ -8,12 +8,17 @@
 # the postTol parameter is the time you'd like to close the search window AFTER the button is released
 # the units for those parameters are in tenths of a second
 
-distanceSensor <- function(file = "10181048.CSV", preTol = 10, postTol = 5){
+# the minDist and maxDist parameters are there to exclude data that is outside of the sensing range of the unit, in cm
+
+distanceSensor <- function(file = "10181048.CSV", preTol = 10, postTol = 5, minDist = 30, maxDist = 750){
 
 # import the data
 data <- read.csv( file, header = TRUE )
 data$seconds <- round(data$milliseconds/1000, 1)
 data$button <- as.logical(data$button)
+
+# clean it up
+data$distance[which(data$distance <= minDist | data$distance >= maxDist)] <- NA
 
 # make a list of when the button changes
 changes <- c(1,1+which(diff(data$button)!=0))
@@ -40,7 +45,7 @@ rm(preTol, postTol)
 
 # now calculate the minimum distance in each of the periods
 for (x in seq(1:dim(periods)[1])){
-periods$dist[x] <- min(data$distance[periods$starts_ext[x] : periods$ends_ext[x]])
+periods$dist[x] <- min(data$distance[periods$starts_ext[x] : periods$ends_ext[x]], na.rm = TRUE)
 }
 rm(x)
 

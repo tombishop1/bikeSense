@@ -2,7 +2,7 @@
 source("analysis_code.R")
 
 # run the function
-df <- distanceSensor(file = "10181048.CSV", preTol = 10, postTol = 5)
+df <- distanceSensor(file = "10181048.CSV", preTol = 10, postTol = 5, minDist = 30, maxDist = 750)
 
 # now report the data
 print(paste0("For the period between ", 
@@ -12,9 +12,9 @@ print(paste0("For the period between ",
              " the number of recorded passes was ",
              dim(df$periods)[1],
              ", for which the passing distance was ",
-             round(mean(df$periods$dist)),
+             round(mean(df$periods$dist, na.rm = TRUE)),
              " ± ",
-             round(sd(df$periods$dist)),
+             round(sd(df$periods$dist, na.rm = TRUE)),
              " cm."
 )
 )
